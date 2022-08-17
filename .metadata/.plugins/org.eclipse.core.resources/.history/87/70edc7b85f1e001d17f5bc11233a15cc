@@ -1,0 +1,52 @@
+package com.ab.Controllers;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.ab.daos.BookDAO;
+import com.ab.utilities.BSFactory;
+
+/**
+ * Servlet implementation class DisplayBookServlet
+ */
+@WebServlet("/DisplayBookServlet")
+public class DisplayBookServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public DisplayBookServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		BookDAO dao = BSFactory.getBookDAO();
+		
+		CustomerService customerService = new CustomerServiceImpl(dao);
+		
+		List<Customer> customerList = customerService.listRegisteredCustomers();
+		
+		
+		
+		//Create a session object ==> the result would be available until session is active
+		
+		HttpSession session = request.getSession(true); //true because if session is not created it permits to create again
+		
+		//now we can store list of customers in session
+		
+		session.setAttribute("cList", customerList);
+		
+		response.sendRedirect("dashboard.jsp");
+	}
+
+}

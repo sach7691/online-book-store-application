@@ -1,0 +1,31 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.List" %>
+<%@page import="com.ab.models.Book" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<%
+List<Book> bookList = (List<Book>)session.getAttribute("bList");
+%>
+<h1>Welcome to View Book</h1>
+<a href="http://localhost:8080/online-book-store-application/DisplayBookServlet" method ="GET"></a>
+
+
+<table border="1">
+  <tr>
+    <th>Available Books in the Store/th>
+  </tr>
+    <c:forEach items="${bList}" var="b">
+        <tr>
+            <td><c:out value="${b.bookTitle}" /></td>
+        </tr>
+    </c:forEach>
+</table>
+</body>
+</html>
